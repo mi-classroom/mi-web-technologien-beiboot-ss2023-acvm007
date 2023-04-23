@@ -4,6 +4,9 @@ body {
 body #q-app {
   overflow: hidden;
 }
+body #q-app canvas {
+  width: 100%;
+}
 body video {
   height: 100% !important;
 }
