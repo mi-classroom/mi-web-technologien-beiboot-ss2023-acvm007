@@ -1,90 +1,51 @@
 <script setup>
 import { ref } from 'vue'
-import {QLayout,QDrawer,QHeader,QPage,QPageContainer,QBtn,QList,QItemLabel,QToolbar,QToolbarTitle} from "quasar";
-import EssentialLink from 'components/EssentialLink.vue'
+import {QLayout,QDrawer,QHeader,QPage,QPageContainer,QBtn,QList,QItemLabel,QToolbar,QToolbarTitle,QItem} from "quasar";
 
 const leftDrawerOpen = ref(false)
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+const links = [{
+  title:'Startseite',
+  to:{name:'Index'}
+},{
+  title:'AR mit GPS Koordinaten',
+  to:{name:'Location'}
+},{
+  title:'AR mit einem Marker',
+  to:{name:'Marker'}
+}]
 </script>
 
 <template>
   <QLayout view="lHh Lpr lFf">
     <QHeader elevated>
       <QToolbar>
-        <QBtn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
+        <QBtn flat
+              dense
+              round
+              icon="menu"
+              aria-label="Menu"
+              @click="leftDrawerOpen = !leftDrawerOpen" />
 
         <QToolbarTitle>
-          Quasar App
+          ARlebnispfade Oberbergischer Kreis
         </QToolbarTitle>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Webtech Beiboot 2023</div>
       </QToolbar>
     </QHeader>
 
-    <QDrawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered>
+    <QDrawer v-model="leftDrawerOpen"
+             show-if-above
+             bordered>
       <QList>
-        <QItemLabel header>
-          Essential Links
-        </QItemLabel>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
+        <QItemLabel header>Navigation</QItemLabel>
+        <QItem v-for="link in links"
+               :key="link.to.name"
+               :clickable="$route.name !== link.to.name"
+               :to="link.to"
+               exact>
+          <QItemLabel>{{link.title}}</QItemLabel>
+        </QItem>
       </QList>
     </QDrawer>
 

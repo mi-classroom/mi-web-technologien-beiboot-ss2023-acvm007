@@ -1,0 +1,11 @@
+body {
+  overflow: hidden;
+}
+body #q-app {
+  overflow: hidden;
+}
+body video {
+  height: 100% !important;
+}
+
+/*# sourceMappingURL=app.css.map */
