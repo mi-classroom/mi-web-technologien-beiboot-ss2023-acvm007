@@ -3,6 +3,10 @@ import { ArToolkitSource, ArToolkitContext, ArMarkerControls} from '@ar-js-org/a
 import * as THREE from 'three';
 import {onMounted, ref} from "vue";
 
+const props = defineProps({
+  marker:{type:String,default:'marker'}
+})
+
 const canvasEl = ref(null)
 const scene = new THREE.Scene()
 const camera = new THREE.Camera()
@@ -19,12 +23,12 @@ const arToolkitSrc = new ArToolkitSource({
   sourceType: 'webcam'
 })
 const arToolkitCtx = new ArToolkitContext({
-  cameraParametersUrl: 'assets/data/camera_para.dat',
+  cameraParametersUrl: 'camera_para.dat',
   detectionMode: 'color_and_matrix',
 })
 new ArMarkerControls(arToolkitCtx,camera,{
   type:'pattern',
-  patternUrl:'assets/data/marker.patt',
+  patternUrl:`${props.marker}.patt`,
   changeMatrixMode:'cameraTransformMatrix'
 })
 

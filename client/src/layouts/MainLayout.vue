@@ -1,6 +1,19 @@
 <script setup>
-import { ref } from 'vue'
-import {QLayout,QDrawer,QHeader,QPage,QPageContainer,QBtn,QList,QItemLabel,QToolbar,QToolbarTitle,QItem} from "quasar";
+import SidebarItem from "layouts/SidebarItem.vue";
+import {
+  QBtn,
+  QDrawer,
+  QExpansionItem,
+  QHeader,
+  QItemLabel,
+  QLayout,
+  QList,
+  QPage,
+  QPageContainer,
+  QToolbar,
+  QToolbarTitle
+} from "quasar";
+import {ref} from 'vue'
 
 const leftDrawerOpen = ref(false)
 const links = [{
@@ -11,7 +24,10 @@ const links = [{
   to:{name:'Location'}
 },{
   title:'AR mit einem Marker',
-  to:{name:'Marker'}
+  children:['AR.js','HIRO','Kanji'].map(title => {
+    const marker = title.includes('.') ? title.split('.').join('') : title
+    return {title, to:{name:'Marker',params:{marker:marker.toLowerCase()}}}
+  })
 }]
 </script>
 
@@ -39,13 +55,17 @@ const links = [{
              bordered>
       <QList>
         <QItemLabel header>Navigation</QItemLabel>
-        <QItem v-for="link in links"
-               :key="link.to.name"
-               :clickable="$route.name !== link.to.name"
-               :to="link.to"
-               exact>
-          <QItemLabel>{{link.title}}</QItemLabel>
-        </QItem>
+        <template v-for="link in links" :key="link.title">
+          <QExpansionItem v-if="'children' in link"
+                          :links="link.children"
+                          expand-separator
+                          :label="link.title">
+            <SidebarItem v-for="child in link.children"
+                         :key="child.name"
+                         :link="child" />
+          </QExpansionItem>
+          <SidebarItem v-else :link="link" />
+        </template>
       </QList>
     </QDrawer>
 

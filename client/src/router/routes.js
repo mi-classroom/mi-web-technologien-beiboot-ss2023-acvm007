@@ -12,8 +12,9 @@ const routes = [
       name:'Location',
       component: () => import('components/LocationBased.vue')
     },{
-      path: 'marker',
+      path: 'marker/:marker',
       name:'Marker',
+      props:true,
       component: () => import('components/MarkerBased.vue')
     }]
   },
