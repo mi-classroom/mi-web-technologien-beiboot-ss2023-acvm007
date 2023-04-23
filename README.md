@@ -4,4 +4,4 @@ Zum Modul Web Technologien gibt es ein begleitendes Projekt. Im Rahmen dieses Pr
 
 Als organisatorischen Rahmen für das Projekt nutzen wir GitHub Classroom. Inhaltlich befassen wir uns mit der Entwicklung einer kleinen Web-Anwendung für die Erprobung von Augmented Reality im Browser. Das wird toll!
 
-Deployment auf eigenem [Server](https://web102.in-p.de/webtech/location)
+Deployment auf eigenem <a href="https://web102.in-p.de/webtech/location" target="_blank">Server</a>
