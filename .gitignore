@@ -2,5 +2,5 @@
 .idea/
 
 client/.vscode/
-
+node_modules/
 dist/
