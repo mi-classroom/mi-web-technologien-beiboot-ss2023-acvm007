@@ -10,6 +10,7 @@ const hasLoaded = ref(false)
 const gpsPlace = reactive({longitute:0,latitude:0})
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000);
+const deviceOrientationControls = new THREEx.DeviceOrientationControls(camera);
 const arjs = new THREEx.LocationBased(scene, camera);
 const geometry = new THREE.BoxGeometry(100,100,100);
 const material = new THREE.MeshBasicMaterial({
@@ -35,10 +36,10 @@ onBeforeMount(() => {
 onMounted(() => {
   renderer.value = new THREE.WebGLRenderer({canvas: canvasEl.value});
   cam = new THREEx.WebcamRenderer(renderer.value);
-  arjs.fakeGps(gpsPlace.latitude,gpsPlace.longitute)
-  arjs.add(box, gpsPlace.latitude, gpsPlace.longitute + 0.01);
+  arjs.add(box, gpsPlace.latitude, gpsPlace.longitute + 0.005);
+  arjs.startGps()
   requestAnimationFrame(render);
-  setInterval(rotate,500)
+  rotate(10)
   hasLoaded.value = true
 })
 
@@ -49,6 +50,7 @@ function render() {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
+  deviceOrientationControls.update();
   cam.update();
   renderer.value.render(scene, camera);
   requestAnimationFrame(render);
