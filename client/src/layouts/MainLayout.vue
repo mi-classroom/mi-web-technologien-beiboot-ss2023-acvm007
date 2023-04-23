@@ -57,8 +57,9 @@ const links = [{
         <QItemLabel header>Navigation</QItemLabel>
         <template v-for="link in links" :key="link.title">
           <QExpansionItem v-if="'children' in link"
-                          :links="link.children"
                           expand-separator
+                          :model-value="$route.name === 'Marker'"
+                          :links="link.children"
                           :label="link.title">
             <SidebarItem v-for="child in link.children"
                          :key="child.name"
