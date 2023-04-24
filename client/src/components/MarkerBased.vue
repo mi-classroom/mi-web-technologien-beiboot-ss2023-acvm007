@@ -12,10 +12,9 @@ const scene = new THREE.Scene()
 const camera = new THREE.Camera()
 const renderer = ref(null)
 const geometry = new THREE.BoxGeometry(1,1,1);
-const material = new THREE.MeshBasicMaterial({
+const material = new THREE.MeshNormalMaterial({
   transparent: true,
   opacity:0.5,
-  color:'red',
   side: THREE.DoubleSide
 });
 const cube = new THREE.Mesh(geometry, material);

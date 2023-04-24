@@ -72,7 +72,7 @@ const links = [{
 
     <QPageContainer>
       <QPage padding :class="$route.name">
-        <router-view />
+        <router-view :key="$route.name+$route.params?.marker" />
       </QPage>
     </QPageContainer>
   </QLayout>
