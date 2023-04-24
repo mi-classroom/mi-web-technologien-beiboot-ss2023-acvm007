@@ -1,7 +1,7 @@
 <script setup>
-import SidebarItem from "layouts/SidebarItem.vue";
 import {
   QBtn,
+  QToggle,
   QDrawer,
   QExpansionItem,
   QHeader,
@@ -11,10 +11,14 @@ import {
   QPage,
   QPageContainer,
   QToolbar,
-  QToolbarTitle
+  QToolbarTitle,
+  QSeparator,
+  QItem
 } from "quasar";
+import {useStore} from "stores/useStore.js";
 import {ref} from 'vue'
 
+const store= useStore()
 const leftDrawerOpen = ref(false)
 const links = [{
   title:'Startseite',
@@ -53,7 +57,7 @@ const links = [{
     <QDrawer v-model="leftDrawerOpen"
              show-if-above
              bordered>
-      <QList>
+      <QList separator>
         <QItemLabel header>Navigation</QItemLabel>
         <template v-for="link in links" :key="link.title">
           <QExpansionItem v-if="'children' in link"
@@ -61,18 +65,32 @@ const links = [{
                           :model-value="$route.name === 'Marker'"
                           :links="link.children"
                           :label="link.title">
-            <SidebarItem v-for="child in link.children"
-                         :key="child.name"
-                         :link="child" />
+            <QList v-for="child in link.children"
+                   :key="child.name"
+                   separator>
+              <QItem :clickable="$route.name !== child.to.name"
+                     :to="child.to"
+                     exact>
+                <QItemLabel>{{child.title}}</QItemLabel>
+              </QItem>
+            </QList>
           </QExpansionItem>
-          <SidebarItem v-else :link="link" />
+          <QItem v-else
+                 :clickable="$route.name !== link.to.name"
+                 :to="link.to"
+                 exact>
+            <QItemLabel>{{link.title}}</QItemLabel>
+          </QItem>
         </template>
       </QList>
+      <QSeparator />
+      <QToggle v-model="useStore().isAudio"
+               label="Mit Audio" />
     </QDrawer>
 
     <QPageContainer>
       <QPage padding :class="$route.name">
-        <router-view :key="$route.name+$route.params?.marker" />
+        <router-view :key="$route.name+$route.params?.marker+store.isAudio" />
       </QPage>
     </QPageContainer>
   </QLayout>
