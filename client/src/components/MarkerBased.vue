@@ -11,7 +11,7 @@ const canvasEl = ref(null)
 const scene = new THREE.Scene()
 const camera = new THREE.Camera()
 const renderer = ref(null)
-const geometry = new THREE.BoxGeometry(1,1,1);
+const geometry = new THREE.BoxGeometry(0.9,0.9,0.9);
 const material = new THREE.MeshNormalMaterial({
   transparent: true,
   opacity:0.5,
@@ -37,7 +37,6 @@ onMounted(() => {
     antialias:true,
     alpha:true
   });
-  cube.position.y = geometry.parameters.height / 2
   scene.visible = false
   arToolkitSrc.init(() => {
     setTimeout(() => {
