@@ -40,7 +40,10 @@ onMounted(() => {
 
 function render() {
   const canvas = canvasEl.value
+  const {clientWidth,clientHeight} = document.body
   if(canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+    canvas.width = clientWidth
+    canvas.height = clientHeight
     renderer.value.setSize(canvas.clientWidth, canvas.clientHeight, false);
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
