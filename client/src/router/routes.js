@@ -3,13 +3,20 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [
-      {
+    children: [{
         path: '',
         name:'Index',
         component: () => import('pages/IndexPage.vue')
-      }
-    ]
+    },{
+      path: 'location',
+      name:'Location',
+      component: () => import('components/LocationBased.vue')
+    },{
+      path: 'marker/:marker',
+      name:'Marker',
+      props:true,
+      component: () => import('components/MarkerBased.vue')
+    }]
   },
 
   // Always leave this as last one,
