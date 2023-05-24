@@ -1,6 +1,6 @@
 <script setup>
 import * as THREEx from '@ar-js-org/ar.js/three.js/build/ar-threex-location-only.js';
-import {getSound} from "src/scripts/tools.js";
+import {getSound, onSceneChange} from "src/scripts/tools.js";
 import * as THREE from 'three';
 import {onBeforeMount, onMounted, ref,reactive} from "vue";
 
@@ -22,11 +22,6 @@ const renderer = ref(null)
 const sound = getSound('audio1.mp3')
 const arjs = new THREEx.LocationBased(scene, camera);
 
-arjs.on('gpsupdate',(pos) => {
-  console.log(pos);
-  sound.play()
-})
-
 onBeforeMount(() => {
   hasLoaded.value = false
   navigator.geolocation.getCurrentPosition((position) => {
@@ -42,7 +37,6 @@ onMounted(() => {
   arjs.add(box,gpsPlace.latitude, gpsPlace.longitute - 0.005);
   arjs.startGps()
   requestAnimationFrame(render);
-  arjs.fakeGps(0,0)
   hasLoaded.value = true
 })
 
@@ -59,10 +53,12 @@ function render() {
   deviceOrientationControls.update();
   cam.update();
   renderer.value.render(scene, camera);
+  onSceneChange(sound,camera.visible)
   requestAnimationFrame(render);
 }
 </script>
 
 <template>
+  <div class="bg-black text-white">{{gpsPlace}}</div>
   <canvas ref="canvasEl" />
 </template>

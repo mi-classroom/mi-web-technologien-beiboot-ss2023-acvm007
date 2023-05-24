@@ -1,6 +1,6 @@
 <script setup>
 import { ArToolkitSource, ArToolkitContext, ArMarkerControls} from '@ar-js-org/ar.js/three.js/build/ar-threex.js';
-import {getSound} from "src/scripts/tools.js";
+import {getSound, onSceneChange} from "src/scripts/tools.js";
 import {useStore} from "stores/useStore.js";
 import * as THREE from 'three';
 import {onMounted, ref} from "vue";
@@ -29,19 +29,10 @@ const arToolkitCtx = new ArToolkitContext({
   cameraParametersUrl: 'camera_para.dat',
   detectionMode: 'color_and_matrix',
 })
-const arMarker = new ArMarkerControls(arToolkitCtx,camera,{
+new ArMarkerControls(arToolkitCtx,camera,{
   type:'pattern',
   patternUrl:`${props.marker}.patt`,
   changeMatrixMode:'cameraTransformMatrix'
-})
-
-arMarker.addEventListener('markerFound',() => {
-  if(store.isAudio) sound.play();
-})
-
-arMarker.addEventListener('markerLost',() => {
-  console.log('Lost Marker');
-  if(store.isAudio) sound.pause();
 })
 
 onMounted(() => {
@@ -61,7 +52,7 @@ onMounted(() => {
     camera.projectionMatrix.copy(arToolkitCtx.getProjectionMatrix());
   });
   scene.add(camera)
-  if(!store.isAudio) scene.add(cube);
+  scene.add(cube);
   animate()
 })
 
@@ -69,6 +60,7 @@ function animate() {
   requestAnimationFrame(animate);
   arToolkitCtx.update(arToolkitSrc.domElement)
   scene.visible = camera.visible
+  onSceneChange(sound,scene.visible)
   renderer.value.render(scene,camera);
 }
 </script>
