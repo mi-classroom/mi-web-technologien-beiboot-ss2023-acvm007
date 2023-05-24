@@ -64,5 +64,6 @@ function render() {
 </script>
 
 <template>
+  <div class="bg-black text-white">{{gpsPlace}}</div>
   <canvas ref="canvasEl" />
 </template>
