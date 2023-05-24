@@ -1,4 +1,6 @@
-import {AudioListener, Audio, AudioLoader, Scene, Camera, PerspectiveCamera} from "three";
+import {useStore} from "stores/useStore.js";
+import {AudioListener, Audio, AudioLoader} from "three";
+import {exp} from "three/nodes";
 
 export function getSound(fileName){
   const listener = new AudioListener();
@@ -10,4 +12,14 @@ export function getSound(fileName){
     sound.setVolume(0.5);
   });
   return sound
+}
+
+export function onSceneChange(sound,visible = false){
+  const isAudio = useStore().isAudio
+  if(visible){
+    if(isAudio) sound.play();
+  }
+  else{
+    if(isAudio) sound.pause();
+  }
 }
