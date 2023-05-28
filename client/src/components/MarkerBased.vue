@@ -9,8 +9,7 @@ const props = defineProps({
   marker:{type:String,default:'marker'}
 })
 
-const store = useStore()
-const sound = getSound('audio1.mp3')
+const sound = ref(getSound('audio1.mp3'))
 const canvasEl = ref(null)
 const scene = new THREE.Scene()
 const camera = new THREE.Camera()
@@ -60,7 +59,7 @@ function animate() {
   requestAnimationFrame(animate);
   arToolkitCtx.update(arToolkitSrc.domElement)
   scene.visible = camera.visible
-  onSceneChange(sound,scene.visible)
+  onSceneChange(sound.value,scene.visible)
   renderer.value.render(scene,camera);
 }
 </script>
