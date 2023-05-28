@@ -1,6 +1,6 @@
 import {useStore} from "stores/useStore.js";
 import {AudioListener, Audio, AudioLoader} from "three";
-import {exp} from "three/nodes";
+import {Notify} from 'quasar'
 
 export function getSound(fileName){
   const listener = new AudioListener();
@@ -22,4 +22,8 @@ export function onSceneChange(sound,visible = false){
   else{
     if(isAudio) sound.pause();
   }
+}
+
+export function setToast(message,type){
+  Notify.create({message,type})
 }
