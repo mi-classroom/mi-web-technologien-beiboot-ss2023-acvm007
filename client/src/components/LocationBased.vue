@@ -1,6 +1,6 @@
 <script setup>
 import * as THREEx from '@ar-js-org/ar.js/three.js/build/ar-threex-location-only.js';
-import {getSound, onSceneChange, setToast} from "src/scripts/tools.js";
+import {setToast} from "src/scripts/tools.js";
 import * as THREE from 'three';
 import {onMounted, ref,reactive} from "vue";
 
@@ -19,7 +19,6 @@ const material = new THREE.MeshNormalMaterial({
 const box = new THREE.Mesh(geometry, material);
 let cam = null
 const renderer = ref(null)
-const sound = ref(getSound('audio1.mp3'))
 const arjs = new THREEx.LocationBased(scene, camera);
 const visible = ref(false)
 const key = ref(0)
@@ -73,7 +72,6 @@ function render() {
   cam.update();
   renderer.value.render(scene, camera);
   visible.value = box.visible
-  onSceneChange(sound.value,false)
   requestAnimationFrame(render);
 }
 </script>
