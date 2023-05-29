@@ -1,9 +1,13 @@
 <script setup>
 import * as THREEx from '@ar-js-org/ar.js/three.js/build/ar-threex-location-only.js';
-import {setToast} from "src/scripts/tools.js";
+import InteractionMenu from "components/InteractionMenu.vue";
+import {OPTIONS, setToast} from "src/scripts/tools.js";
 import * as THREE from 'three';
+import {Interaction} from "../../libs/three.interaction/index.js";
 import {onMounted, ref,reactive} from "vue";
 
+const visible = ref(false)
+const showMenu = ref(false)
 const canvasEl = ref(null)
 const hasLoaded = ref(false)
 const gpsPlace = reactive({longitude:0, latitude:0})
@@ -16,12 +20,11 @@ const material = new THREE.MeshNormalMaterial({
   opacity:0.7,
   side: THREE.DoubleSide
 });
-const box = new THREE.Mesh(geometry, material);
+const mesh = new THREE.Mesh(geometry, material);
 let cam = null
 const renderer = ref(null)
 const arjs = new THREEx.LocationBased(scene, camera);
-const visible = ref(false)
-const key = ref(0)
+const lastPos = ref(0)
 
 arjs.on('gpsupdate',position => {
   const {longitude,latitude} = position.coords
@@ -46,7 +49,15 @@ async function handlePermission(){
     navigator.geolocation.getCurrentPosition((position) => {
       const {longitude,latitude} = position.coords
       updatePosition(longitude,latitude)
-      arjs.add(box,longitude, latitude - 0.005);
+      arjs.add(mesh,longitude, latitude - 0.005);
+      new Interaction(renderer.value,scene,camera)
+      mesh.pointer = 'cursor'
+      mesh.on('click', () => {
+        showMenu.value = visible.value ? !showMenu.value : false
+      })
+      scene.on('click',(ev) => {
+        addMesh()
+      })
       arjs.startGps()
     })
   }
@@ -71,11 +82,29 @@ function render() {
   deviceOrientationControls.update();
   cam.update();
   renderer.value.render(scene, camera);
-  visible.value = box.visible
+  visible.value = mesh.visible
   requestAnimationFrame(render);
+}
+
+function addMesh(){
+  lastPos.value += 0.005
+  const newGeom = new THREE.SphereGeometry(50,50,50);
+  const newMtl = new THREE.MeshNormalMaterial({
+    transparent: true,
+    opacity:0.7,
+    side: THREE.DoubleSide
+  });
+  const newMesh = new THREE.Mesh(newGeom, newMtl);
+  const {longitude,latitude} = gpsPlace
+  arjs.add(newMesh,longitude + lastPos.value, latitude - lastPos.value);
 }
 </script>
 
 <template>
+  <InteractionMenu :mesh="mesh"
+                   :visible="visible"
+                   :show="showMenu"
+                   :included-options="[OPTIONS.AUDIO]"
+                   @hide="showMenu = false" />
   <canvas ref="canvasEl" />
 </template>

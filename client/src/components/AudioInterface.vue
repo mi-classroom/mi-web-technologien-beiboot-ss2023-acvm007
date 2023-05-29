@@ -85,6 +85,7 @@ function audioHandler() {
   if (!props.soundId) {
     emit('setSoundId',id)
   }
+  sound.value.mute(!props.visible)
   isLoading.value = false
 }
 
@@ -137,7 +138,7 @@ function onAnimationFrame() {
                :min="0"
                :max="sound.duration()"
                :label-value="(position / 60).toFixed(2)"
-               :disable="!visible"
+               :disable="!visible || true"
                label
                color="blue"
                @update:model-value="seek" />
