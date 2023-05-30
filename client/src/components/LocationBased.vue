@@ -55,9 +55,7 @@ async function handlePermission(){
       mesh.on('click', () => {
         showMenu.value = visible.value ? !showMenu.value : false
       })
-      scene.on('click',(ev) => {
-        addMesh()
-      })
+      scene.on('click',() => addMesh())
       arjs.startGps()
     })
   }
@@ -87,7 +85,7 @@ function render() {
 }
 
 function addMesh(){
-  lastPos.value += 0.005
+  lastPos.value += 0.001
   const newGeom = new THREE.SphereGeometry(50,50,50);
   const newMtl = new THREE.MeshNormalMaterial({
     transparent: true,
@@ -96,7 +94,13 @@ function addMesh(){
   });
   const newMesh = new THREE.Mesh(newGeom, newMtl);
   const {longitude,latitude} = gpsPlace
-  arjs.add(newMesh,longitude + lastPos.value, latitude - lastPos.value);
+  const range = (0.01 - 0.05) + 0.05
+  const newLoc = {
+    longitude: longitude - Math.random() * range,
+    latitude: latitude - Math.random() * (range + 0.005)
+  }
+  arjs.add(newMesh,newLoc.longitude,  newLoc.latitude);
+  setToast(`Sphere placed at ${newLoc.longitude}, ${newLoc.latitude}`,'info')
 }
 </script>
 
