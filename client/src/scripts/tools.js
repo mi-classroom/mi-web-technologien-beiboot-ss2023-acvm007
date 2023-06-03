@@ -19,3 +19,7 @@ export function changeGeometry(mesh,type){
     mesh.geometry = new SphereGeometry();
   }
 }
+
+export function setToast(message,type){
+  Notify.create({message,type})
+}
