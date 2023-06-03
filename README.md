@@ -4,4 +4,11 @@ Zum Modul Web Technologien gibt es ein begleitendes Projekt. Im Rahmen dieses Pr
 
 Als organisatorischen Rahmen für das Projekt nutzen wir GitHub Classroom. Inhaltlich befassen wir uns mit der Entwicklung einer kleinen Web-Anwendung für die Erprobung von Augmented Reality im Browser. Das wird toll!
 
-Deployment auf eigenem <a href="https://web102.in-p.de/webtech" target="_blank">Server</a>
+## Arbeitsweise und Code Reviews
+Um eine klare Aufgabetrennung zu haben und auf dem Haptbranch (````main````) nur funktionalen Code zu haben, der am Ende deployed werden, kann wird eine Feature Branch Arbeitsweise angewendet. Für jedes Issue von Prof. Noss wird ein extra branch mit dem Prefix ````Issue/```` erstellt. Falls es eine Ergänzung zu einem bereits deployten Issue gibt, ist dies in einem Feature Branch (````Feature/````) zu implementieren. Nach Beendigung eines Issues oder Features wird ein Pull Request auf den main-Branch gestartet. Erst nachdem der neue Code von 2 Parteien genehmigt wird dieser vom Repo Owner gemerged und es findet (momentan noch manuell) ein deploy statt.
+
+## Aufsetzen der lokalen Entwicklungsumgebung
+1. Repo clonen ````git clone https://github.com/mi-classroom/mi-web-technologien-beiboot-ss2023-acvm007.git````
+2. In den Client ordner *client* wechseln```cd client```
+3. Abhängigkeiten Installieren ```npm i``` oder ```yarn```
+4. VueJS Starten ````npm run dev````
