@@ -1,26 +1,22 @@
-import {useStore} from "stores/useStore.js";
-import {AudioListener, Audio, AudioLoader} from "three";
 import {Notify} from 'quasar'
+import {BoxGeometry,SphereGeometry} from "three";
 
-export function getSound(fileName){
-  const listener = new AudioListener();
-  const sound = new Audio(listener);
-  const audioLoader = new AudioLoader();
-  audioLoader.load(`../sounds/${fileName}`, function(buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(true);
-    sound.setVolume(0.5);
-  });
-  return sound
+export const OPTIONS = {
+  VISUAL: 0,
+  AUDIO: 1
 }
 
-export function onSceneChange(sound,visible = false){
-  const isAudio = useStore().isAudio
-  if(visible){
-    if(isAudio) sound.play();
+export function setToast(message,type){
+  Notify.create({message,type})
+}
+
+export function changeGeometry(mesh,type){
+  mesh.geometry.dispose();
+  if (type === 'box') {
+    mesh.geometry = new BoxGeometry();
   }
-  else{
-    if(isAudio) sound.pause();
+  else if(type === 'sphere') {
+    mesh.geometry = new SphereGeometry();
   }
 }
 

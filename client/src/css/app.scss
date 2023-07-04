@@ -6,6 +6,19 @@ body{
       width: 100%;
     }
   }
+  .interface{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ebebeb;
+    .q-btn{
+      margin: 0 1rem;
+      &:last-child{
+        margin-left: 0;
+      }
+    }
+  }
   video{
     height: 100%!important;
   }

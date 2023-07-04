@@ -1,7 +1,6 @@
 <script setup>
 import {
   QBtn,
-  QToggle,
   QDrawer,
   QExpansionItem,
   QHeader,
@@ -84,13 +83,11 @@ const links = [{
         </template>
       </QList>
       <QSeparator />
-      <QToggle v-model="useStore().isAudio"
-               label="Mit Audio" />
     </QDrawer>
 
     <QPageContainer>
       <QPage padding :class="$route.name">
-        <router-view :key="$route.name+$route.params?.marker+store.isAudio" />
+        <router-view :key="$route.name+$route.params?.marker" />
       </QPage>
     </QPageContainer>
   </QLayout>
