@@ -16,6 +16,7 @@
     "@ar-js-org/ar.js": "^3.4.5",
     "@quasar/extras": "^1.0.0",
     "axios": "^1.2.1",
+    "howler": "^2.2.3",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",

@@ -16,7 +16,6 @@ const sound = ref(null)
 const interfaceOptions = computed(() => {
   const options = []
   props.includedOptions.forEach(opt => {
-    console.log(opt, OPTIONS.VISUAL);
     if (opt === OPTIONS.VISUAL) {
       options.push({
         name: 'Visualisierung',

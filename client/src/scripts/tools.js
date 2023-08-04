@@ -6,7 +6,7 @@ export const OPTIONS = {
   AUDIO: 1
 }
 
-export function setToast(message,type){
+export function setToast(message,type = 'positive'){
   Notify.create({message,type})
 }
 
@@ -18,8 +18,4 @@ export function changeGeometry(mesh,type){
   else if(type === 'sphere') {
     mesh.geometry = new SphereGeometry();
   }
-}
-
-export function setToast(message,type){
-  Notify.create({message,type})
 }

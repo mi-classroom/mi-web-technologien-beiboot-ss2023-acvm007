@@ -23,7 +23,9 @@ const material = new THREE.MeshNormalMaterial({
 const mesh = new THREE.Mesh(geometry, material);
 let cam = null
 const renderer = ref(null)
-const arjs = new THREEx.LocationBased(scene, camera);
+const arjs = new THREEx.LocationBased(scene, camera,{
+
+});
 const lastPos = ref(0)
 
 arjs.on('gpsupdate',position => {
@@ -32,6 +34,11 @@ arjs.on('gpsupdate',position => {
     updatePosition(longitude,latitude)
     setToast(`Location updated`, 'positive')
   }
+})
+
+arjs.on('gpserror',position => {
+  console.log(position);
+  setToast(`Location error!`,'negative')
 })
 
 onMounted(async () => {

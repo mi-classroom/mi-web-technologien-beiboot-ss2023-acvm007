@@ -1,6 +1,7 @@
 <script setup>
 import {QItemSection, QBtn, QSlider, QItem} from "quasar";
 import {ref, onBeforeMount,watch} from 'vue'
+import {audios} from '../data/store.json'
 import {Howl} from 'howler';
 
 const props = defineProps({
@@ -10,13 +11,6 @@ const props = defineProps({
 const emit = defineEmits(['setSoundId','setSound'])
 
 const sound = ref(null)
-const audios = [{
-  name: 'audio1.mp3',
-  title: 'Imperial March'
-}, {
-  name: 'audio2.mp3',
-  title: 'Watch the World Burn'
-}]
 const currentAudio = ref(0)
 const position = ref(0)
 const isLoading = ref(false)

@@ -14,24 +14,13 @@ import {
   QSeparator,
   QItem
 } from "quasar";
+import getSidebar from '../data/sidebar.js'
 import {useStore} from "stores/useStore.js";
 import {ref} from 'vue'
 
 const store= useStore()
 const leftDrawerOpen = ref(false)
-const links = [{
-  title:'Startseite',
-  to:{name:'Index'}
-},{
-  title:'AR mit GPS Koordinaten',
-  to:{name:'Location'}
-},{
-  title:'AR mit einem Marker',
-  children:['AR.js','HIRO','Kanji'].map(title => {
-    const marker = title.includes('.') ? title.split('.').join('') : title
-    return {title, to:{name:'Marker',params:{marker:marker.toLowerCase()}}}
-  })
-}]
+const links = getSidebar()
 </script>
 
 <template>
