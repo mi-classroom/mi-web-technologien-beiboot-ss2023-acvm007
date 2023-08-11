@@ -1,6 +1,6 @@
 <script setup>
 import AudioInterface from "components/AudioInterface.vue";
-import {QMenu, QBtn, QList, QItem, QItemLabel, QItemSection} from "quasar";
+import {QMenu, QBtn, QList, QItem, QItemLabel, QItemSection,QIcon} from "quasar";
 import {OPTIONS} from "src/scripts/tools.js";
 import {computed, ref, watch} from "vue";
 

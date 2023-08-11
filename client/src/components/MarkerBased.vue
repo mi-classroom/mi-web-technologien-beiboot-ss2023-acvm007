@@ -2,8 +2,7 @@
 import {ArMarkerControls, ArToolkitContext, ArToolkitSource} from '@ar-js-org/ar.js/three.js/build/ar-threex.js';
 import {Interaction} from "../../libs/three.interaction/index.js";
 import InteractionMenu from "components/InteractionMenu.vue";
-import {changeGeometry} from "src/scripts/tools.js";
-import * as THREE from 'three';
+import {changeGeometry,initThreeJs} from "src/scripts/tools.js";
 import {onMounted, ref} from "vue";
 
 const props = defineProps({
@@ -12,16 +11,8 @@ const props = defineProps({
 const visible = ref(false)
 const showMenu = ref(false)
 const canvasEl = ref(null)
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000);
+const {THREE,scene,camera,mesh} = initThreeJs()
 const renderer = ref(null)
-const geometry = new THREE.BoxGeometry(0.9, 0.9, 0.9);
-const material = new THREE.MeshNormalMaterial({
-  transparent: true,
-  opacity: 0.5,
-  side: THREE.DoubleSide
-})
-const mesh = new THREE.Mesh(geometry, material);
 const arToolkitSrc = new ArToolkitSource({
   sourceType: 'webcam'
 })

@@ -1,8 +1,7 @@
 <script setup>
 import * as THREEx from '@ar-js-org/ar.js/three.js/build/ar-threex-location-only.js';
 import InteractionMenu from "components/InteractionMenu.vue";
-import {OPTIONS, setToast} from "src/scripts/tools.js";
-import * as THREE from 'three';
+import {initThreeJs, OPTIONS, setToast} from "src/scripts/tools.js";
 import {Interaction} from "../../libs/three.interaction/index.js";
 import {onMounted, ref,reactive} from "vue";
 
@@ -10,41 +9,34 @@ const visible = ref(false)
 const showMenu = ref(false)
 const canvasEl = ref(null)
 const hasLoaded = ref(false)
-const gpsPlace = reactive({longitude:0, latitude:0})
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000);
+const deviceGps = reactive({longitude:0, latitude:0})
+const markerGps = reactive({longitude:7.5678735, latitude:51.0219481})
+const {THREE,scene,camera,mesh} = initThreeJs(100)
 const deviceOrientationControls = new THREEx.DeviceOrientationControls(camera);
-const geometry = new THREE.BoxGeometry(100,100,100);
-const material = new THREE.MeshNormalMaterial({
-  transparent: true,
-  opacity:0.7,
-  side: THREE.DoubleSide
-});
-const mesh = new THREE.Mesh(geometry, material);
 let cam = null
 const renderer = ref(null)
-const arjs = new THREEx.LocationBased(scene, camera,{
-
-});
-const lastPos = ref(0)
+const arjs = new THREEx.LocationBased(scene, camera);
 
 arjs.on('gpsupdate',position => {
-  const {longitude,latitude} = position.coords
-  if(longitude !== gpsPlace.latitude || latitude !== gpsPlace.latitude) {
-    updatePosition(longitude,latitude)
-    setToast(`Location updated`, 'positive')
-  }
+  updatePosition(position.coords)
 })
 
-arjs.on('gpserror',position => {
-  console.log(position);
+arjs.on('gpserror',() => {
   setToast(`Location error!`,'negative')
 })
+
+arjs.add(mesh,markerGps.longitude, markerGps.latitude);
+mesh.pointer = 'cursor'
+mesh.on('click', () => {
+  showMenu.value = visible.value ? !showMenu.value : false
+})
+arjs.startGps()
 
 onMounted(async () => {
   hasLoaded.value = false
   renderer.value = new THREE.WebGLRenderer({canvas: canvasEl.value});
   cam = new THREEx.WebcamRenderer(renderer.value);
+  new Interaction(renderer.value,scene,camera)
   await handlePermission()
   requestAnimationFrame(render);
   hasLoaded.value = true
@@ -54,24 +46,15 @@ async function handlePermission(){
   const result = await navigator.permissions.query({name:'geolocation'})
   if(result.state === 'prompt' || result.state === 'granted') {
     navigator.geolocation.getCurrentPosition((position) => {
-      const {longitude,latitude} = position.coords
-      updatePosition(longitude,latitude)
-      arjs.add(mesh,longitude, latitude - 0.005);
-      new Interaction(renderer.value,scene,camera)
-      mesh.pointer = 'cursor'
-      mesh.on('click', () => {
-        showMenu.value = visible.value ? !showMenu.value : false
-      })
-      scene.on('click',() => addMesh())
-      arjs.startGps()
+      updatePosition(position.coords)
     })
   }
   else console.log('DENIED');
 }
 
-function updatePosition(longitude,latitude){
-  gpsPlace.longitude = longitude
-  gpsPlace.latitude = latitude
+function updatePosition({longitude, latitude}){
+  deviceGps.longitude = longitude
+  deviceGps.latitude = latitude
 }
 
 function render() {
@@ -90,28 +73,10 @@ function render() {
   visible.value = mesh.visible
   requestAnimationFrame(render);
 }
-
-function addMesh(){
-  lastPos.value += 0.001
-  const newGeom = new THREE.SphereGeometry(50,50,50);
-  const newMtl = new THREE.MeshNormalMaterial({
-    transparent: true,
-    opacity:0.7,
-    side: THREE.DoubleSide
-  });
-  const newMesh = new THREE.Mesh(newGeom, newMtl);
-  const {longitude,latitude} = gpsPlace
-  const range = (0.01 - 0.05) + 0.05
-  const newLoc = {
-    longitude: longitude - Math.random() * range,
-    latitude: latitude - Math.random() * (range + 0.005)
-  }
-  arjs.add(newMesh,newLoc.longitude,  newLoc.latitude);
-  setToast(`Sphere placed at ${newLoc.longitude}, ${newLoc.latitude}`,'info')
-}
 </script>
 
 <template>
+  <p>You are at: {{deviceGps}}, Marker placed at: {{markerGps}}</p>
   <InteractionMenu :mesh="mesh"
                    :visible="visible"
                    :show="showMenu"
