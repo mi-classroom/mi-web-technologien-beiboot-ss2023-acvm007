@@ -1,9 +1,115 @@
 {
-  "audios": [{
-    "name": "Crusade.mp3",
-    "title": "Crusade (Heavy Industry) - Kevin MacLeod"
-  }, {
-    "name": "Onion_Capers.mp3",
-    "title": "Onion Capers - Kevin MacLeod"
-  }]
+  "audios": [
+    {
+      "name": "Crusade.mp3",
+      "title": "Crusade (Heavy Industry) - Kevin MacLeod"
+    },
+    {
+      "name": "Onion_Capers.mp3",
+      "title": "Onion Capers - Kevin MacLeod"
+    }
+  ],
+  "paths": [
+    {
+      "id": "wiehl",
+      "title": "Wiehl",
+      "background": "/images/bergisches_waldbroel-4351265.jpg",
+      "events": ["locationVideo","markerCube"]
+    },
+    {
+      "id": "marienheide",
+      "title": "Straße der Arbeit - Marienheide",
+      "background": "/images/unnenbergturm.jpg",
+      "events": ["locationCube","markerImage"]
+    },
+    {
+      "id": "Wipperfürth",
+      "title": "Wipperfürth",
+      "background": "/images/csm_DSC02989-Bearbeitet_EDITpt_b112176dd8.jpg.webp",
+      "events": ["locationImage","markerVideo"]
+    }
+  ],
+  "events": [
+    {
+      "id": "locationVideo",
+      "title": "Location - Video",
+      "type": "gps",
+      "media": {
+        "type": "video",
+        "url": "https://www.youtube.com/watch?v=8Xeeh2JP2Bg&list=RD8Xeeh2JP2Bg"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    },
+    {
+      "id": "locationCube",
+      "title": "Location - Cube",
+      "type": "gps",
+      "media": {
+        "type": "mesh",
+        "geometry": "cube"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    },
+    {
+      "id": "locationImage",
+      "title": "Location - Image",
+      "type": "gps",
+      "media": {
+        "type": "video",
+        "url": "/images/unnenbergturm.jpg"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    },
+    {
+      "id": "markerVideo",
+      "title": "AR.js - Video Marker",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "type": "Video",
+        "url": "https://www.youtube.com/watch?v=8Xeeh2JP2Bg&list=RD8Xeeh2JP2Bg"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    },
+    {
+      "id": "markerImage",
+      "title": "AR.js - Image Marker",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "type": "Video",
+        "url": "/images/unnenbergturm.jpg"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    },
+    {
+      "id": "markerCube",
+      "title": "AR.js - Cube Marker",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "type": "mesh",
+        "geometry": "cube"
+      },
+      "coords": {
+        "lng": 7.5678735,
+        "lat": 51.0219481
+      }
+    }
+  ]
 }

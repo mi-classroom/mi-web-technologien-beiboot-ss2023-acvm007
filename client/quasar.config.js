@@ -74,7 +74,7 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
       config: {
-        dark:true,
+        dark:false,
         notify: { html:true,multiLine:true,timeout:5000,closeBtn:true,position:'top' }
       },
 
