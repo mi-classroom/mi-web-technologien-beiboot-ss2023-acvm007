@@ -23,7 +23,7 @@ module.exports = configure(function (ctx) {
       errors: true
     },
 
-    boot: [],
+    boot: ['./boot.js'],
     css: [
       'app.scss'
     ],
@@ -40,7 +40,7 @@ module.exports = configure(function (ctx) {
         browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
         node: 'node16'
       },
-      distDir:'../dist',
+      distDir:'../webtech',
       vueRouterMode: 'history',
       // vueRouterBase,
       // vueDevtools,
@@ -75,7 +75,7 @@ module.exports = configure(function (ctx) {
     framework: {
       config: {
         dark:false,
-        notify: { html:true,multiLine:true,timeout:5000,closeBtn:true,position:'top' }
+        notify: { html:true,multiLine:true,timeout:5000,closeBtn:true,position:'bottom' }
       },
 
       // iconSet: 'material-icons', // Quasar icon set

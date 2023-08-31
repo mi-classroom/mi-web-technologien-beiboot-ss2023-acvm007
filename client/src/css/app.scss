@@ -26,7 +26,7 @@ body{
             height: 100vh;
             object-fit: cover;
             position: fixed;
-            top: 0;
+            top: 2rem;
             left: 0;
             z-index: -1;
           }
@@ -49,7 +49,7 @@ body{
           }
         }
         #choose{
-          background-image: url("images/aggertalsperre.jpg_667295446.jpg");
+          background-image: url("./images/aggertalsperre.jpg_667295446.jpg");
           height: 100vh;
           background-repeat: no-repeat;
           background-size: cover;
@@ -144,5 +144,11 @@ body{
         margin-left: 0;
       }
     }
+  }
+  .q-tab-panels{
+    flex-grow: 1;
+  }
+  .marker{
+    transform: translateX(-22px) translateY(-45px);
   }
 }

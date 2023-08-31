@@ -7,11 +7,12 @@ import eruda from 'eruda'
 const hasToasted = ref(false)
 if(import.meta.env.DEV) eruda.init({tool: ['console']})
 onMounted(async () => {
-  navigator.mediaDevices.getUserMedia(userMediaConstraints).then((mediaStream) => {
+  navigator.mediaDevices.getUserMedia(userMediaConstraints).then(() => {
     setToast('Ihre Kamera wird zur Darstellung der ARlebnisse verwendet')
   })
   navigator.geolocation.watchPosition(({coords}) => {
-    updatePosition(coords)
+    const {latitude,longitude} =  coords
+    updatePosition({lng:longitude,lat:latitude})
     if(!hasToasted.value){
       setToast('Ihre Position wird für ein besseres ARlebnis verwendet')
       hasToasted.value = true

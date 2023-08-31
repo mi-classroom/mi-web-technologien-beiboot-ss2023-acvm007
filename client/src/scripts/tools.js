@@ -3,37 +3,66 @@ import {ArMarkerControls, ArToolkitContext, ArToolkitSource} from "@ar-js-org/ar
 import {Notify} from 'quasar'
 import {useStore} from "stores/useStore.js";
 import * as THREE from "three";
-
-export const OPTIONS = {
-  VISUAL: 0,
-  AUDIO: 1
-}
+import playButtonAlpha from '../assets/play_button_alpha.jpg'
 
 export const userMediaConstraints = {
-  video: {
-    facingMode: 'environment'
-  }
+  video: {facingMode: 'environment'}
 }
 
 export function setToast(message, type = 'positive') {
   Notify.create({message, type})
 }
 
-export function changeGeometry(mesh, type) {
-  mesh.geometry.dispose();
-  if (type === 'box') {
-    mesh.geometry = new THREE.BoxGeometry();
+export function getItemRoute(id,isEventList) {
+  const name = isEventList ? 'ArEvent' : 'Start'
+  const params = {}
+  const query = {}
+  if (isEventList) {
+    params.eventType = 'events'
+    params.id = id
   }
-  else if (type === 'sphere') {
-    mesh.geometry = new THREE.SphereGeometry();
+  else {
+    params.action = 'nearby'
+    query.path = id
+  }
+  return {name, params, query}
+}
+
+export function updatePosition({lng, lat}) {
+  useStore().position.lng = lng
+  useStore().position.lat = lat
+}
+
+//Need to use ith to get correct coordinates for Mercator projection
+export function getMapCoordinates(coords) {
+  const {lng,lat} = getCoordinates(coords)
+  return [lng,lat]
+}
+
+//This is only for the demo to set coordinates for test events a tad north of current user position
+export function getCoordinates(coords){
+  if(coords) return coords
+  else{
+    const {lng,lat} = useStore().position
+    const amount = 0.005
+    return {lat: lat - amount,lng}
   }
 }
 
-export function initThreeJs(meshSize = 0.9, media) {
+async function loadImage(url){
+  return new Promise((resolve, reject) => {
+    new THREE.TextureLoader().load(url,tex => resolve(tex), e => reject(e))
+  })
+}
+
+export async function initThreeJs(isMarker, media, video) {
+  const factor = isMarker ? 250 : 1
+  const size = 250 / factor
+  const hasMedia = ['video', 'image'].some(key => key in media)
   let material, geometry
-  if (media.type === 'mesh') {
+  if ('mesh' in media) {
     material = []
-    if (media.geometry === 'cube') {
+    if (media.mesh === 'cube') {
       material.push(
         new THREE.MeshBasicMaterial({color: 0xff0000}),
         new THREE.MeshBasicMaterial({color: 0x0000ff}),
@@ -42,140 +71,83 @@ export function initThreeJs(meshSize = 0.9, media) {
         new THREE.MeshBasicMaterial({color: 0x00ffff}),
         new THREE.MeshBasicMaterial({color: 0xffff00})
       )
-      geometry = new THREE.BoxGeometry(meshSize, meshSize, meshSize)
+      geometry = new THREE.BoxGeometry(size, size, size)
     }
   }
-  else if (['video', 'image'].includes(media.type)) {
-    //TODO
-    material = new THREE.MeshBasicMaterial({color: 0xffff00});
-    geometry = new THREE.SphereGeometry(20,meshSize * 50,1,1)
+  if (hasMedia) {
+    const scaleFactor = 3
+    let texture, width, height
+    if ('image' in media) {
+      texture = await loadImage(media.image)
+      const image = texture.source.data
+      width = image.width
+      height = image.height
+    }
+    else {
+      texture = new THREE.VideoTexture(video)
+      texture.minFilter = THREE.LinearFilter
+      texture.magFilter = THREE.LinearFilter
+      texture.colorSpace = THREE.SRGBColorSpace;
+      width = video.videoWidth
+      height = video.videoHeight
+    }
+    const mat = new THREE.MeshBasicMaterial({color: 0xffffff, map: texture});
+    if(material && Array.isArray(material)) {
+      material.splice(-1, 0, mat)
+    }
+    else material = mat
+    if(!geometry) {
+      const aspectRatio = width/height
+      geometry = new THREE.BoxGeometry(size * aspectRatio, size, 1.0)
+    }
   }
+  material.depthTest = false;
+  const mesh = new THREE.Mesh(geometry, material)
   return {
     scene: new THREE.Scene(),
     camera: new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000),
-    mesh: new THREE.Mesh(geometry, material)
+    mesh,
   }
 }
 
-export class Event {
-  constructor(event, canvas) {
-    this.event = event
-    this.canvas = canvas
-    this.isMarker = event.type === 'marker'
-    this.cam = null
-    this.arToolkitSrc = null
-    this.arToolkitCtx = null
-    this.deviceOrientationControls = null
-    this.visible = false
-
-    const {scene, camera, mesh} = initThreeJs(this.isMarker ? 0.9 : 100, this.event.media)
-    this.scene = scene
-    this.camera = camera
-    this.mesh = mesh
-    this.renderer = new THREE.WebGLRenderer({
-      canvas: this.canvas,
-      antialias: true,
-      alpha: true
-    })
-  }
-
-  init() {
-    if (this.isMarker) {
-      this.arToolkitSrc = new ArToolkitSource({
-        sourceType: 'webcam'
-      })
-      this.arToolkitCtx = new ArToolkitContext({
-        cameraParametersUrl: '/marker/camera_para.dat',
-        detectionMode: 'color_and_matrix',
-      })
-
-      new ArMarkerControls(this.arToolkitCtx, this.camera, {
-        type: 'pattern',
-        patternUrl: `/marker/${this.event.file}`,
-        changeMatrixMode: 'cameraTransformMatrix'
-      })
-      this.scene.visible = false
-      this.arToolkitSrc.init(() => {
-        setTimeout(() => {
-          this.arToolkitSrc.onResizeElement()
-          this.arToolkitSrc.copyElementSizeTo(this.renderer.domElement)
-        }, 100)
-      })
-      this.arToolkitCtx.init(function onCompleted() {
-        this.camera.projectionMatrix.copy(this.arToolkitCtx.getProjectionMatrix());
-      });
-      this.scene.add(this.camera)
-      this.scene.add(this.mesh);
-    }
-    else {
-      const arjs = new THREEx.LocationBased(this.scene, this.camera);
-      this.cam = new THREEx.WebcamRenderer(this.renderer);
-      this.deviceOrientationControls = new THREEx.DeviceOrientationControls(this.camera);
-      arjs.on('gpsupdate', position => {
-        updatePosition(position.coords)
-      })
-      arjs.on('gpserror', () => {
-        setToast(`Location error!`, 'negative')
-      })
-      arjs.add(this.mesh, this.event.coords.lng, this.event.coords.lat);
-      arjs.startGps()
-    }
-    this.render.bind(this).render()
-  }
-
-  render() {
-    requestAnimationFrame(this.render);
-    const {clientWidth, clientHeight} = document.body
-    if (!!this.canvas && (this.canvas.width !== this.canvas.clientWidth || this.canvas.height !== this.canvas.clientHeight)) {
-      this.canvas.width = clientWidth
-      this.canvas.height = clientHeight
-      this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight, false);
-      this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
-      this.camera.updateProjectionMatrix();
-    }
-    if (this.isMarker) {
-      this.arToolkitCtx.update(this.arToolkitSrc.domElement)
-    }
-    else {
-      this.deviceOrientationControls.update();
-      this.cam.update();
-    }
-    this.scene.visible = this.camera.visible
-    this.visible = this.scene.visible
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  destroy() {
-    console.log(this.mesh)
-  }
-}
-
-export function updatePosition({lng, lat}) {
-  useStore().position.lng = lng
-  useStore().position.lat = lat
-}
-
-export async function newEvent(event, canvas) {
+export async function newEvent(event, canvas, video, hasPlayableMedia) {
   const isMarker = event.type === 'marker'
-  const {scene, camera, mesh} = initThreeJs(isMarker ? 0.9 : 100, event.media)
+  const {scene, camera, mesh} = await initThreeJs(isMarker, event.media, video)
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
     alpha: true
   })
-  let cam, arToolkitSrc, arToolkitCtx, deviceOrientationControls, visible = false
+  let cam, arToolkitSrc, arToolkitCtx, deviceOrientationControls, playButton
+  if (hasPlayableMedia) {
+    const boxSize = new THREE.Vector3();
+    const box = new THREE.Box3().setFromObject(mesh);
+    const {x,y} = box.getSize(boxSize);
+    const size = (x / y) * 3
+    playButton = new THREE.Mesh(new THREE.BoxGeometry(size,size), new THREE.MeshBasicMaterial({
+      color: 0xC1C1C0,
+      alphaMap: new THREE.TextureLoader().load(playButtonAlpha),
+      alphaTest: 0.3
+    }));
+    mesh.add(playButton)
+    mesh.renderOrder = 0;
+    playButton.renderOrder = 1;
+    if(isMarker) playButton.position.z = 5
+    else playButton.position.z = -850;
+    playButton.visible = true;
+  }
   if (isMarker) {
     arToolkitSrc = new ArToolkitSource({
       sourceType: 'webcam'
     })
     arToolkitCtx = new ArToolkitContext({
-      cameraParametersUrl: '/marker/camera_para.dat',
+      cameraParametersUrl: '../marker/camera_para.dat',
       detectionMode: 'color_and_matrix',
     })
 
     new ArMarkerControls(arToolkitCtx, camera, {
       type: 'pattern',
-      patternUrl: `/marker/${event.file}`,
+      patternUrl: `../marker/${event.file}`,
       changeMatrixMode: 'cameraTransformMatrix'
     })
     scene.visible = false
@@ -195,36 +167,23 @@ export async function newEvent(event, canvas) {
     const arjs = new THREEx.LocationBased(scene, camera);
     cam = new THREEx.WebcamRenderer(renderer);
     deviceOrientationControls = new THREEx.DeviceOrientationControls(camera);
-    arjs.on('gpsupdate', position => {
-      updatePosition(position.coords)
-    })
     arjs.on('gpserror', () => {
       setToast(`Location error!`, 'negative')
     })
-    arjs.add(mesh, event.coords.lng, event.coords.lat);
+    const {lng,lat} = getCoordinates(event.coords)
+    arjs.add(mesh,lng,lat);
     arjs.startGps()
   }
-  render()
 
-  function render() {
-    requestAnimationFrame(render);
-    const {clientWidth, clientHeight} = document.body
-    if (!!canvas && (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight)) {
-      canvas.width = clientWidth
-      canvas.height = clientHeight
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
-    }
-    if (isMarker) {
-      arToolkitCtx.update(arToolkitSrc.domElement)
-    }
-    else {
-      deviceOrientationControls.update();
-      cam.update();
-    }
-    scene.visible = camera.visible
-    visible = scene.visible
-    renderer.render(scene, camera);
+  return {
+    renderer,
+    scene,
+    camera,
+    cam,
+    isMarker,
+    arToolkitSrc,
+    arToolkitCtx,
+    deviceOrientationControls,
+    playButton
   }
 }
