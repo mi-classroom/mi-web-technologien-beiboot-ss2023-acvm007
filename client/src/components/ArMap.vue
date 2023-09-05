@@ -17,11 +17,6 @@ const mapConfig = reactive({
   zoom: 10,
   enableRotation:false
 })
-
-function setPosition(event){
-  const [lng,lat] = event.target.getPosition()
-  updatePosition({lng,lat})
-}
 </script>
 
 <template>
@@ -45,12 +40,11 @@ function setPosition(event){
       </QIcon>
     </ol-overlay>
 
-    <ol-geolocation :projection="mapConfig.projection"
-                    @change:position="setPosition">
+    <ol-geolocation :projection="mapConfig.projection">
       <ol-vector-layer :zIndex="2">
         <ol-source-vector>
           <ol-feature ref="positionFeature">
-            <ol-geom-point :coordinates="getMapCoordinates(deviceGps)"></ol-geom-point>
+            <ol-geom-point :coordinates="fromLonLat(getMapCoordinates(deviceGps))"></ol-geom-point>
             <ol-style>
               <ol-style-circle radius="10">
                 <ol-style-fill color="blue"></ol-style-fill>
@@ -66,7 +60,7 @@ function setPosition(event){
         <ol-feature>
           <ol-geom-line-string
             :coordinates="[
-                  getMapCoordinates(deviceGps),
+                  fromLonLat(getMapCoordinates(deviceGps)),
                   ...events.map(item => fromLonLat(getMapCoordinates(item.coords)))
                 ]" />
           <ol-style>

@@ -35,11 +35,9 @@ const items = computed(() => {
     }
     else items.push(...events.filter(event => 'coords' in event))
     return items.sort((a,b) => {
-      return true
-      //This causes the map component to throw errors. Why?
-      /*const distA = getDistanceFromUser(a.coords)
+      const distA = getDistanceFromUser(a.coords)
       const distB = getDistanceFromUser(b.coords)
-      return distA - distB*/
+      return distA - distB
     })
   }
   return paths
@@ -75,7 +73,6 @@ function getDistanceString(eventGps){
   const unit = isKm ? 'km' : 'm'
   return `${(isKm ? distance/1000 : distance).toFixed(isKm ? 2 : 0)} ${unit}`
 }
-
 </script>
 
 <template>
@@ -118,7 +115,8 @@ function getDistanceString(eventGps){
                      size="sm"
                      @click="selectedEvent = event" />
             </QItemLabel>
-            <QItemLabel class="col-3 text-right">
+            <QItemLabel class="col-3 text-right"
+                        :key="deviceGps.lng+deviceGps.lat">
               {{ getDistanceString(event.coords) }}
             </QItemLabel>
             <QItemLabel class="col-1 cursor-pointer text-right">

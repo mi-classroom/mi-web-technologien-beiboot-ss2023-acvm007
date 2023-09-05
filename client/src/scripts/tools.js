@@ -75,7 +75,6 @@ export async function initThreeJs(isMarker, media, video) {
     }
   }
   if (hasMedia) {
-    const scaleFactor = 3
     let texture, width, height
     if ('image' in media) {
       texture = await loadImage(media.image)
