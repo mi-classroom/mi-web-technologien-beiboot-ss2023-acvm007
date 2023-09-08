@@ -12,3 +12,16 @@ Um eine klare Aufgabetrennung zu haben und auf dem Haptbranch (````main````) nur
 2. In den Client ordner *client* wechseln```cd client```
 3. Abhängigkeiten Installieren ```npm i``` oder ```yarn```
 4. VueJS Starten ````npm run dev````
+
+## Komponentenbeschreibung
+Unter dem ````layouts```` befindet sich das Hauptlayout der Anwendung. Hier werden alle anderen Komponente gerendetr.
+Dabei enthält der ````pages```` Ordner alle Unterseiten, die in verschiedenen Routen gerendert werden:
+1. ````IndexPage.vue```` wird  unter der Route ````/```` gerendert ist die Startseite und zugleich die Seite um zwischen "Stöbern" und "Nutzen"  zu wählen. Was angezeigt wird regelt der query Parameter  ````start````. Ist dieser gesetzt wird die Auswahl angezeigt, andernfalls das Video.
+2. ````InitializeAAction.vue```` wird unter ````/start/[pokeAround|use]```` gerendert und stellt entweder die Liste von ARlebnissen dar oder eine Auswahl zwischen drei Optionen (ARlebnisse in der Umgebung/Mit QR Code starten/Hilfe)
+3. ````AREvent.vue```` rendert ein ARLebnis indem es Funktionen aus ````/scripts/tools.js```` aufruft. Die Komponente selbst ist vom HTML minimal stellt aber auch die Renderfunktion der ARLebnisse selbst.
+
+Der Ordner ````components```` enthält alle Komponent, die ausgelagert wurden und innerhalb der einzelnen Seiten gerendert werden.
+1. ````ARMap.vue```` rendert die Kartenansicht und bekommt als Prop eine Liste an ARlebnissen (events) übergeben
+2. ````CustomLoader.vue```` ist ein Spinner, der einen Loading State anzeigen soll. Dieser wurde ausgelagert, um nicht immer denselben Spinner von Quasar zu importieren. Auch ist es so eijnfacher die Ladeanzeige global anzupassen und um Daten vie Progressindikationn zu erweitern
+3. ````EventInformation.vue```` rendert die Informationskarte zu einem Event, falls in diesem Informationen hinterlegt sind.
+4. ````EventList.vue```` rendert die Ansicht der ARlebnispfade, wobei die Kartenansicht deaktiviert ist, und gleichzeitig auch die einzelnen Events  eines ARlebnispfades oder alle in der Ungebung (zum aktuellen Stand alle aus der Datenhaltung)
