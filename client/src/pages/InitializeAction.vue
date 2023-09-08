@@ -76,7 +76,7 @@ function navigate(action){
       <QCardSection class="text-center">Hilfe zur Demoanwendung</QCardSection>
       <QSeparator />
       <QCardSection class="text-center">
-        Hilfe, wie Sie die Anwendung verwenden und mehr Informationen zum Projekt finden Sie im <a href="https://github.com/mi-classroom/mi-web-technologien-beiboot-ss2023-acvm007/wiki/Demoanwendung" target="_blank">Wiki</a>
+        Hilfe, wie Sie die Anwendung verwenden und mehr Informationen zum Projekt finden Sie im <a href="https://github.com/mi-classroom/mi-web-technologien-beiboot-ss2023-acvm007/wiki/Demoanwendung-(Issue-4)" target="_blank">Wiki</a>
       </QCardSection>
       <QSeparator />
       <QCardActions align="between">
