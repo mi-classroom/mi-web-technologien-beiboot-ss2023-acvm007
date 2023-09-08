@@ -22,6 +22,7 @@
     "ol-ext": "^4.0.11",
     "pinia": "^2.1.6",
     "quasar": "^2.12.4",
+    "three-addons": "^1.2.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vue3-openlayers": "^1.2.0"

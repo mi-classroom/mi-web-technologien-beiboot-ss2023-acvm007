@@ -32,6 +32,9 @@ dependencies:
   quasar:
     specifier: ^2.12.4
     version: 2.12.4
+  three-addons:
+    specifier: ^1.2.0
+    version: 1.2.0
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -5242,8 +5245,18 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
+  /three-addons@1.2.0:
+    resolution: {integrity: sha512-tmPGLtcsDb0Bt6bVU82y9KX0rdAzizr7t2rFjBecWq4pvfGMY3l+yCfvntGYeZGJ9cjsli10cHSWHsN1pTy4mA==}
+    dependencies:
+      three: 0.92.0
+    dev: false
+
   /three@0.150.1:
     resolution: {integrity: sha512-5C1MqKUWaHYo13BX0Q64qcdwImgnnjSOFgBscOzAo8MYCzEtqfQqorEKMcajnA3FHy1yVlIe9AmaMQ0OQracNA==}
+    dev: false
+
+  /three@0.92.0:
+    resolution: {integrity: sha512-yQzuwMDEyxc+TFHn8c+LtpK1Sqpy8I3FAr+1EoqqLmNmv6hjfFqB8PlYztRLuM4FMFb4hIbpUoP7Gc9bPQvkCg==}
     dev: false
 
   /through@2.3.8:

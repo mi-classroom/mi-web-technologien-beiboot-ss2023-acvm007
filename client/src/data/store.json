@@ -4,7 +4,7 @@
       "id": "wiehl",
       "title": "Wiehl (Mesh Tests)",
       "background": "../images/bergisches_waldbroel-4351265.jpg",
-      "events": ["testMesh","testMeshImage","testMeshAudio","testMeshVideo","testMeshAudioImage","waldkurs","tropfsteinhöhle"]
+      "events": ["testMesh","testMeshImage","testMeshAudio","testMeshVideo","testMeshAudioImage","chairGltf","shuttleGltf","swordGltf","waldkurs","tropfsteinhöhle"]
     },
     {
       "id": "marienheide",
@@ -26,6 +26,42 @@
       "type": "gps",
       "media": {
         "mesh": "cube"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "chairGltf",
+      "title": "GLTF: Chair - Test",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "SheenChair.glb"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "shuttleGltf",
+      "title": "GLTF: Space Shuttle - Test",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "SpaceShuttle.glb"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "swordGltf",
+      "title": "GLTF: Gladiator Sword - Test",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "GladiatorSword.glb"
       },
       "information": {
         "text": "TEXT zum Event"

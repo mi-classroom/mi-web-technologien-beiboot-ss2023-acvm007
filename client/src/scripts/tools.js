@@ -5,6 +5,7 @@ import {useStore} from "stores/useStore.js";
 import * as THREE from "three";
 import playAlpha from '../assets/playAlpha.png'
 import pauseAlpha from '../assets/pauseAlpha.png'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export const userMediaConstraints = {
   video: {facingMode: 'environment'}
@@ -40,7 +41,7 @@ export function getMapCoordinates(coords) {
   return [lng,lat]
 }
 
-//This is only for the demo to set coordinates for test events a tad north of current user position
+//This is only for the demo to set coordinates for test events a tad north of current users position
 export function getCoordinates(coords){
   if(coords) return coords
   else{
@@ -50,9 +51,15 @@ export function getCoordinates(coords){
   }
 }
 
-async function loadImage(url){
+async function load(url,type){
   return new Promise((resolve, reject) => {
-    new THREE.TextureLoader().load(url,tex => resolve(tex), e => reject(e))
+    let LOADER
+    if(type === 'image') LOADER = new THREE.TextureLoader()
+    else if(type === 'gltf') LOADER = new GLTFLoader()
+    else throw "NO LOADER"
+    LOADER.load(url,data => resolve(data),progress => {
+      console.log(`${(progress.loaded / progress.total * 100).toFixed(2)} % loaded` );
+    },e => reject(e))
   })
 }
 
@@ -60,7 +67,7 @@ export async function initThreeJs(isMarker, media, video) {
   const factor = isMarker ? 150 : 1
   const size = 250 / factor
   const hasMedia = ['video', 'image'].some(key => key in media)
-  let material, geometry
+  let material, geometry,mesh
   if ('mesh' in media) {
     material = []
     if (media.mesh === 'cube') {
@@ -74,11 +81,18 @@ export async function initThreeJs(isMarker, media, video) {
       )
       geometry = new THREE.BoxGeometry(size, size, size)
     }
+    if(media.mesh === 'custom'){
+      const gltf = await load(`../models/${media.file}`,'gltf')
+      const scale = isMarker ? 1 : 200
+      mesh = gltf.scene
+      mesh.scale.set(scale * mesh.scale.x, scale * mesh.scale.y, scale * mesh.scale.z)
+      mesh.rotation.y = 110
+    }
   }
   if (hasMedia) {
     let texture, width, height
     if ('image' in media) {
-      texture = await loadImage(media.image)
+      texture = await load(media.image,'image')
       const image = texture.source.data
       width = image.width
       height = image.height
@@ -103,11 +117,11 @@ export async function initThreeJs(isMarker, media, video) {
     }
   }
   material.depthTest = false;
-  const mesh = new THREE.Mesh(geometry, material)
+  if(!mesh) mesh = new THREE.Mesh(geometry, material)
   return {
     scene: new THREE.Scene(),
     camera: new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000),
-    mesh,
+    mesh
   }
 }
 
@@ -145,6 +159,10 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
       playButton.position.y = -200
       playButton.position.z = -1
     }
+  }
+  if('mesh' in event.media && event.media.mesh === 'custom'){
+    const ambientLight = new THREE.AmbientLight( 0xffffff, 0.4 );
+    scene.add( ambientLight );
   }
   if (isMarker) {
     arToolkitSrc = new ArToolkitSource({
@@ -184,7 +202,7 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
     arjs.add(mesh,lng,lat);
     arjs.startGps()
   }
-
+  renderer.outputEncoding = THREE.sRGBEncoding;
   return {
     renderer,
     scene,

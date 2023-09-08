@@ -1,6 +1,5 @@
 <script setup>
 import {setToast, updatePosition, userMediaConstraints} from "src/scripts/tools.js";
-import {useStore} from "stores/useStore.js";
 import {onMounted, ref} from "vue";
 import eruda from 'eruda'
 
