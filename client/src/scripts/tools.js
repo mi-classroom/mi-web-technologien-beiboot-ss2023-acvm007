@@ -3,7 +3,8 @@ import {ArMarkerControls, ArToolkitContext, ArToolkitSource} from "@ar-js-org/ar
 import {Notify} from 'quasar'
 import {useStore} from "stores/useStore.js";
 import * as THREE from "three";
-import playButtonAlpha from '../assets/play_button_alpha.jpg'
+import playAlpha from '../assets/playAlpha.png'
+import pauseAlpha from '../assets/pauseAlpha.png'
 
 export const userMediaConstraints = {
   video: {facingMode: 'environment'}
@@ -56,7 +57,7 @@ async function loadImage(url){
 }
 
 export async function initThreeJs(isMarker, media, video) {
-  const factor = isMarker ? 250 : 1
+  const factor = isMarker ? 150 : 1
   const size = 250 / factor
   const hasMedia = ['video', 'image'].some(key => key in media)
   let material, geometry
@@ -97,7 +98,8 @@ export async function initThreeJs(isMarker, media, video) {
     else material = mat
     if(!geometry) {
       const aspectRatio = width/height
-      geometry = new THREE.BoxGeometry(size * aspectRatio, size, 1.0)
+      geometry = new THREE.PlaneGeometry(size * aspectRatio, size, 1.0)
+      material.side = THREE.DoubleSide
     }
   }
   material.depthTest = false;
@@ -107,6 +109,15 @@ export async function initThreeJs(isMarker, media, video) {
     camera: new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000),
     mesh,
   }
+}
+
+export function getBtnTexture(isPlaying){
+  return new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    alphaMap: new THREE.TextureLoader().load(isPlaying ? pauseAlpha : playAlpha),
+    alphaTest: 0.3,
+    side: THREE.DoubleSide
+  })
 }
 
 export async function newEvent(event, canvas, video, hasPlayableMedia) {
@@ -119,21 +130,21 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
   })
   let cam, arToolkitSrc, arToolkitCtx, deviceOrientationControls, playButton
   if (hasPlayableMedia) {
-    const boxSize = new THREE.Vector3();
-    const box = new THREE.Box3().setFromObject(mesh);
-    const {x,y} = box.getSize(boxSize);
-    const size = (x / y) * 3
-    playButton = new THREE.Mesh(new THREE.BoxGeometry(size,size), new THREE.MeshBasicMaterial({
-      color: 0xC1C1C0,
-      alphaMap: new THREE.TextureLoader().load(playButtonAlpha),
-      alphaTest: 0.3
-    }));
+    const size = isMarker ? 1 : 100
+    playButton = new THREE.Mesh(new THREE.PlaneGeometry(size,size), getBtnTexture(false));
     mesh.add(playButton)
     mesh.renderOrder = 0;
     playButton.renderOrder = 1;
-    if(isMarker) playButton.position.z = 5
-    else playButton.position.z = -850;
-    playButton.visible = true;
+    playButton.isPlaying = false
+    if(isMarker) {
+      playButton.position.y = -5
+      playButton.position.z = -6
+    }
+    else {
+      playButton.scale.multiply(new THREE.Vector3(-1,-1,-1))
+      playButton.position.y = -200
+      playButton.position.z = -1
+    }
   }
   if (isMarker) {
     arToolkitSrc = new ArToolkitSource({

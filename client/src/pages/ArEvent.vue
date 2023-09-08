@@ -1,6 +1,6 @@
 <script setup>
 import CustomLoader from "components/CustomLoader.vue";
-import {newEvent} from "src/scripts/tools.js";
+import {getBtnTexture, newEvent} from "src/scripts/tools.js";
 import {ref, onMounted, onUnmounted, computed, toRaw} from "vue";
 import {events} from '../data/store.json'
 import * as THREE from 'three'
@@ -55,11 +55,12 @@ async function doLoad(){
     arEvent.value.playButton.callback = () => {
       [videoEl.value,audioEl.value].forEach(el => {
         if(el){
-          if(arEvent.value.playButton.visible) el.play()
-          else el.pause()
+          if(arEvent.value.playButton.isPlaying) el.pause()
+          else el.play()
         }
       })
-      arEvent.value.playButton.visible = !arEvent.value.playButton.visible
+      arEvent.value.playButton.isPlaying = !arEvent.value.playButton.isPlaying
+      arEvent.value.playButton.material = getBtnTexture(arEvent.value.playButton.isPlaying)
     }
   }
   render()
