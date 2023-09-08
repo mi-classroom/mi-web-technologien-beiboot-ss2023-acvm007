@@ -18,7 +18,6 @@ import {useStore} from "stores/useStore.js";
 import {ref} from 'vue'
 
 const store= useStore()
-const leftDrawerOpen = ref(false)
 </script>
 
 <template>
