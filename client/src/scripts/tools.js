@@ -67,7 +67,7 @@ export async function initThreeJs(isMarker, media, video) {
   const factor = isMarker ? 150 : 1
   const size = 250 / factor
   const hasMedia = ['video', 'image'].some(key => key in media)
-  let material, geometry,mesh
+  let material, geometry,mesh, mixer
   if ('mesh' in media) {
     material = []
     if (media.mesh === 'cube') {
@@ -87,6 +87,12 @@ export async function initThreeJs(isMarker, media, video) {
       mesh = gltf.scene
       mesh.scale.set(scale * mesh.scale.x, scale * mesh.scale.y, scale * mesh.scale.z)
       mesh.rotation.y = 110
+      if(media.animate){
+        mixer = new THREE.AnimationMixer(mesh);
+        const action = mixer.clipAction(gltf.animations[ 0 ]);
+        action.play();
+
+      }
     }
   }
   if (hasMedia) {
@@ -121,7 +127,8 @@ export async function initThreeJs(isMarker, media, video) {
   return {
     scene: new THREE.Scene(),
     camera: new THREE.PerspectiveCamera(60, 1.33, 0.1, 10000),
-    mesh
+    mesh,
+    mixer
   }
 }
 
@@ -136,7 +143,7 @@ export function getBtnTexture(isPlaying){
 
 export async function newEvent(event, canvas, video, hasPlayableMedia) {
   const isMarker = event.type === 'marker'
-  const {scene, camera, mesh} = await initThreeJs(isMarker, event.media, video)
+  const {scene, camera, mesh,mixer} = await initThreeJs(isMarker, event.media, video)
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -208,6 +215,7 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
     arToolkitSrc,
     arToolkitCtx,
     deviceOrientationControls,
-    playButton
+    playButton,
+    mixer
   }
 }

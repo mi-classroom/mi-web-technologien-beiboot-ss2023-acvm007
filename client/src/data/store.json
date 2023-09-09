@@ -4,19 +4,41 @@
       "id": "wiehl",
       "title": "Wiehl (Mesh Tests)",
       "background": "../images/bergisches_waldbroel-4351265.jpg",
-      "events": ["testMesh","testMeshImage","testMeshAudio","testMeshVideo","testMeshAudioImage","chairGltf","shuttleGltf","swordGltf","waldkurs","tropfsteinhöhle"]
+      "events": [
+        "testMesh",
+        "testMeshImage",
+        "testMeshAudio",
+        "testMeshVideo",
+        "testMeshAudioImage",
+        "chairGltf",
+        "shuttleGltf",
+        "swordGltf",
+        "waldkurs",
+        "tropfsteinhöhle"
+      ]
     },
     {
       "id": "marienheide",
       "title": "Straße der Arbeit - Marienheide (Video Tests)",
       "background": "../images/unnenbergturm.jpg",
-      "events": ["testVideo","testVideoAudio","testVideoMuted","ibzSchloss","unnenbergturm"]
+      "events": [
+        "testVideo",
+        "testVideoAudio",
+        "testVideoMuted",
+        "ibzSchloss",
+        "unnenbergturm"
+      ]
     },
     {
       "id": "Wipperfürth",
       "title": "Wipperfürth (Image Tests)",
       "background": "../images/csm_DSC02989-Bearbeitet_EDITpt_b112176dd8.jpg.webp",
-      "events": ["testImage","testImageAudio","stüttem","fuchsloch"]
+      "events": [
+        "testImage",
+        "testImageAudio",
+        "stüttem",
+        "fuchsloch"
+      ]
     }
   ],
   "events": [
@@ -45,11 +67,12 @@
     },
     {
       "id": "shuttleGltf",
-      "title": "GLTF: Space Shuttle - Test",
+      "title": "GLTF Animation: Space Shuttle - Test",
       "type": "gps",
       "media": {
         "mesh": "custom",
-        "file": "SpaceShuttle.glb"
+        "file": "SpaceShuttle.glb",
+        "animate": true
       },
       "information": {
         "text": "TEXT zum Event"
@@ -57,11 +80,12 @@
     },
     {
       "id": "swordGltf",
-      "title": "GLTF: Gladiator Sword - Test",
+      "title": "GLTF Animation: Gladiator Sword - Test",
       "type": "gps",
       "media": {
         "mesh": "custom",
-        "file": "GladiatorSword.glb"
+        "file": "GladiatorSword.glb",
+        "animate": true
       },
       "information": {
         "text": "TEXT zum Event"

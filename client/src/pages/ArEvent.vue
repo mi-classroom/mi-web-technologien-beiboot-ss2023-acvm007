@@ -11,6 +11,7 @@ const props = defineProps({
 })
 const RAYCASTER = new THREE.Raycaster();
 const MOUSE = new THREE.Vector2();
+const CLOCK = new THREE.Clock();
 const isLoading = ref(false)
 const canvasEl = ref(null)
 const videoEl = ref(null)
@@ -95,6 +96,7 @@ function render(){
     arEvent.value.deviceOrientationControls.update();
     toRaw(arEvent.value.cam).update();
   }
+  if (arEvent.value.mixer) arEvent.value.mixer.update(CLOCK.getDelta());
   arEvent.value.scene.visible = arEvent.value.camera.visible
   arEvent.value.renderer.render(toRaw(arEvent.value.scene), toRaw(arEvent.value.camera));
 }
