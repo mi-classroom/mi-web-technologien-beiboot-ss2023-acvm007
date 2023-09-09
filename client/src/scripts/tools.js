@@ -160,10 +160,6 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
       playButton.position.z = -1
     }
   }
-  if('mesh' in event.media && event.media.mesh === 'custom'){
-    const ambientLight = new THREE.AmbientLight( 0xffffff, 0.4 );
-    scene.add( ambientLight );
-  }
   if (isMarker) {
     arToolkitSrc = new ArToolkitSource({
       sourceType: 'webcam'
@@ -202,7 +198,7 @@ export async function newEvent(event, canvas, video, hasPlayableMedia) {
     arjs.add(mesh,lng,lat);
     arjs.startGps()
   }
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.outputEncoding = THREE.sRGBEncoding
   return {
     renderer,
     scene,
