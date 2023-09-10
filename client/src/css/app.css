@@ -42,6 +42,7 @@ body #q-app .q-page.Index #start .q-icon {
   left: 50%;
   cursor: pointer;
   rotate: -90deg;
+  rotate: -90deg;
 }
 body #q-app .q-page.Index #choose {
   background-image: url("../images/aggertalsperre.jpg_667295446.jpg");

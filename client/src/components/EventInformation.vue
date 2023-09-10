@@ -27,13 +27,13 @@ function goTo(){
       <QCardSection>{{event.information.text}}</QCardSection>
     </template>
     <QCardSection v-else>
-      Keine weiterführenden Informationen zum Event
+      Keine weiterführenden Informationen zu diesem ARlebnis
     </QCardSection>
     <QCardActions align="between">
       <QBtn label="Schliessen"
             color="black"
             v-close-popup />
-      <QBtn label="Zum Event"
+      <QBtn label="ARlebnis starten"
             color="accent"
             v-close-popup
             @click="goTo" />
