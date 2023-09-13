@@ -55,7 +55,7 @@
     },
     {
       "id": "chairGltf",
-      "title": "GLTF: Chair - Test",
+      "title": "GLTF Test: Chair",
       "type": "gps",
       "media": {
         "mesh": "custom",
@@ -67,7 +67,7 @@
     },
     {
       "id": "shuttleGltf",
-      "title": "GLTF Animation: Space Shuttle - Test",
+      "title": "GLTF Animation Test - Space Shuttle",
       "type": "gps",
       "media": {
         "mesh": "custom",
@@ -80,11 +80,11 @@
     },
     {
       "id": "swordGltf",
-      "title": "GLTF Animation: Gladiator Sword - Test",
+      "title": "GLTF Animation Test - Gladius",
       "type": "gps",
       "media": {
         "mesh": "custom",
-        "file": "GladiatorSword.glb",
+        "file": "Gladius.glb",
         "animate": true
       },
       "information": {
