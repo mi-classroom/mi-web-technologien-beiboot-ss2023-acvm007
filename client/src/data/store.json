@@ -1,0 +1,279 @@
+{
+  "paths": [
+    {
+      "id": "wiehl",
+      "title": "Wiehl (Mesh Tests)",
+      "background": "../images/bergisches_waldbroel-4351265.jpg",
+      "events": [
+        "testMesh",
+        "testMeshImage",
+        "testMeshAudio",
+        "testMeshVideo",
+        "testMeshAudioImage",
+        "chairGltf",
+        "shuttleGltf",
+        "swordGltf",
+        "waldkurs",
+        "tropfsteinhöhle"
+      ]
+    },
+    {
+      "id": "marienheide",
+      "title": "Straße der Arbeit - Marienheide (Video Tests)",
+      "background": "../images/unnenbergturm.jpg",
+      "events": [
+        "testVideo",
+        "testVideoAudio",
+        "testVideoMuted",
+        "ibzSchloss",
+        "unnenbergturm"
+      ]
+    },
+    {
+      "id": "Wipperfürth",
+      "title": "Wipperfürth (Image Tests)",
+      "background": "../images/csm_DSC02989-Bearbeitet_EDITpt_b112176dd8.jpg.webp",
+      "events": [
+        "testImage",
+        "testImageAudio",
+        "stüttem",
+        "fuchsloch"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "testMesh",
+      "title": "Mesh - Test",
+      "type": "gps",
+      "media": {
+        "mesh": "cube"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "chairGltf",
+      "title": "GLTF Test: Chair",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "SheenChair.glb"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "shuttleGltf",
+      "title": "GLTF Animation Test - Space Shuttle",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "SpaceShuttle.glb",
+        "animate": true
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "swordGltf",
+      "title": "GLTF Animation Test - Gladius",
+      "type": "gps",
+      "media": {
+        "mesh": "custom",
+        "file": "Gladius.glb",
+        "animate": true
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "testMeshImage",
+      "title": "Mesh - Image Test",
+      "type": "gps",
+      "media": {
+        "mesh": "cube",
+        "image": "https://plus.unsplash.com/premium_photo-1691591182467-b5ffdf32c1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "testMeshAudio",
+      "title": "Mesh - Audio Test",
+      "type": "gps",
+      "media": {
+        "mesh": "cube",
+        "audio": "/sounds/Crusade.mp3"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "testMeshImageAudio",
+      "title": "Mesh - Audio Test",
+      "type": "gps",
+      "media": {
+        "mesh": "cube",
+        "image": "https://plus.unsplash.com/premium_photo-1691591182467-b5ffdf32c1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        "audio": "/sounds/Crusade.mp3"
+      }
+    },
+    {
+      "id": "testMeshVideo",
+      "title": "Mesh - Video Test",
+      "type": "gps",
+      "media": {
+        "mesh": "cube",
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      }
+    },
+    {
+      "id": "testVideo",
+      "title": "Video - Test",
+      "type": "gps",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "testVideoAudio",
+      "title": "Video - Test mit anderem Audio",
+      "type": "gps",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "audio": "/sounds/Crusade.mp3"
+      }
+    },
+    {
+      "id": "testVideoMuted",
+      "title": "Video - Stumm Test",
+      "type": "gps",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "audio": ""
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "testImage",
+      "title": "Image - Test",
+      "type": "gps",
+      "media": {
+        "image": "https://plus.unsplash.com/premium_photo-1691591182467-b5ffdf32c1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+      }
+    },
+    {
+      "id": "testImageAudio",
+      "title": "Image - Audio Test",
+      "type": "gps",
+      "media": {
+        "image": "https://plus.unsplash.com/premium_photo-1691591182467-b5ffdf32c1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        "audio": "/sounds/Crusade.mp3"
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "waldkurs",
+      "title": "Bielsteiner Waldkurs",
+      "type": "gps",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+      },
+      "coords": {
+        "lng": 7.49332035218013,
+        "lat": 50.95514697495662
+      },
+      "information": {
+        "text": "TEXT zum Event"
+      }
+    },
+    {
+      "id": "ibzSchloss",
+      "title": "IBZ Schloss Gimborn",
+      "type": "gps",
+      "media": {
+        "mesh": "cube"
+      },
+      "coords": {
+        "lng": 7.476207838013758,
+        "lat": 51.06217842955553
+      }
+    },
+    {
+      "id": "stüttem",
+      "title": "Das Landgut Stüttem",
+      "type": "gps",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+      },
+      "coords": {
+        "lng": 7.4099024976223395,
+        "lat": 51.08324596740342
+      },
+      "information": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+        "text": "TEXT zu Stüttem"
+      }
+    },
+    {
+      "id": "fuchsloch",
+      "title": "Fuchsloch auf Gut Voswinckel (Image Marker)",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "image": "../images/unnenbergturm.jpg"
+      },
+      "coords": {
+        "lng": 7.479495774711714,
+        "lat": 51.1382501825686
+      },
+      "information": {
+        "text": "TEXT zum Fuchsloch"
+      }
+    },
+    {
+      "id": "unnenbergturm",
+      "title": "Unnenbergturm (Video Marker)",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+      },
+      "coords": {
+        "lng": 7.610137119524313,
+        "lat": 51.06499874741612
+      },
+      "information": {
+        "image": "../images/unnenbergturm.jpg",
+        "text": "TEXT zum Unnenbergturm"
+      }
+    },
+    {
+      "id": "tropfsteinhöhle",
+      "title": "Wiehler Tropfsteinhöhle (Marker)",
+      "type": "marker",
+      "file": "arjs.patt",
+      "media": {
+        "mesh": "cube"
+      },
+      "coords": {
+        "lng": 7.548622790005662,
+        "lat": 50.93962326538899
+      }
+    }
+  ]
+}

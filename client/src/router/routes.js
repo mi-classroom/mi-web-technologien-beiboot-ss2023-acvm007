@@ -8,15 +8,16 @@ const routes = [
         name:'Index',
         component: () => import('pages/IndexPage.vue')
     },{
-      path: 'location',
-      name:'Location',
-      component: () => import('components/LocationBased.vue')
+      path: 'start/:action',
+      name:'Start',
+      props: true,
+      component: () => import('pages/InitializeAction.vue')
     },{
-      path: 'marker/:marker',
-      name:'Marker',
-      props:true,
-      component: () => import('components/MarkerBased.vue')
-    }]
+        path: ':eventType/:id',
+        name:'ArEvent',
+        props: true,
+        component: () => import('pages/ArEvent.vue')
+      }]
   },
 
   // Always leave this as last one,
