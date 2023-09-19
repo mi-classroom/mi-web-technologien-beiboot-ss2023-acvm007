@@ -2,7 +2,7 @@
 import ArMap from "components/ArMap.vue";
 import EventInformation from "components/EventInformation.vue";
 import {getDistance} from "ol/sphere.js";
-import {QDialog, QIcon, QImg, QItem, QItemLabel, QList, QTab, QTabPanel, QTabPanels, QTabs} from "quasar";
+import {QDialog, QIcon, QImg, QItem, QItemLabel, QList, QTab, QTabPanel, QTabPanels, QTabs,QBadge} from "quasar";
 import {getItemRoute, getMapCoordinates} from "src/scripts/tools.js";
 import {useStore} from "stores/useStore.js";
 import {computed, onBeforeMount, onBeforeUpdate, ref, watch} from "vue";
@@ -127,7 +127,14 @@ function getDistanceString(eventGps){
             </QItemLabel>
           </div>
           <QImg v-else :src="event.background">
-            <QItemLabel class="full-width">{{ event.title }}</QItemLabel>
+            <QItemLabel class="full-width">
+              {{ event.title }}
+              <QBadge :label="event.events.length"
+                      rounded
+                      color="accent"
+                      align="middle"
+              />
+            </QItemLabel>
           </QImg>
         </QItem>
       </QList>

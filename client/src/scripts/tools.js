@@ -143,7 +143,7 @@ export function getBtnTexture(isPlaying){
 
 export async function newEvent(event, canvas, video, hasPlayableMedia) {
   const isMarker = event.type === 'marker'
-  const {scene, camera, mesh,mixer} = await initThreeJs(isMarker, event.media, video)
+  const {scene, camera, mesh, mixer} = await initThreeJs(isMarker, event.media, video)
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
